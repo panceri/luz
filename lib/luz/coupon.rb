@@ -3,8 +3,8 @@ module Luz
     class Coupon
         @@used_times = 0
         
-        def initialize(array)
-            @id, @value, @type, @date, @qtd = array.split(",")
+        def initialize(array, delimiter)
+            @id, @value, @type, @date, @qtd = array.split(delimiter)
         end
         
         def to_s
