@@ -1,5 +1,5 @@
 require 'spec_helper'
 
-describe Luz do
+describe Luz::Principal do
     
 end

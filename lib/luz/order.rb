@@ -1,5 +1,4 @@
-#require 'product'
-#require 'coupon'
+require 'luz/coupon'
 
 module Luz
     class Order
