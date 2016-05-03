@@ -1,6 +1,6 @@
-require "luz/model/coupon"
+require "luz/coupon"
 
 
 describe Coupon do
-    
+
 end

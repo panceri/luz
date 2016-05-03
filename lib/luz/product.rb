@@ -1,7 +1,10 @@
 module Luz
     class Product
-        def initialize(array, delimiter)
-            @id, @price = array.split(delimiter)
+
+      attr_accessor :id, :price
+        def initialize(array)
+            @id = array[0]
+            @price = array[1]
         end
     end
 end
