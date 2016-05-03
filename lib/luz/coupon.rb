@@ -1,15 +1,20 @@
 require 'date'
 module Luz
     class Coupon
-        @@used_times = 0
+
         attr_accessor :id, :value, :type, :date, :qtd
 
         def initialize(array)
+            raise ArgumentError, 'Wrong input size' unless array.size == 5
+            raise ArgumentError, 'Invalid discount type' unless array[2].to_s.match(/(percent|absolute)/)
+            raise ArgumentError, 'qtd must be a number' unless array[4].to_s.match(/^[0-9]+$/)
+
             @id = array[0]
             @value = array[1]
-            @type = array[2]
-            @date = array[3]
+            @type = array[2].to_s
+            @date = Date.strptime(array[3].to_s, "%m/%d/%Y")
             @qtd = array[4]
+            @used_times = 0
         end
 
         def to_s
@@ -21,11 +26,11 @@ module Luz
         end
 
         def mark_used
-            @@used_times += 1
+            @used_times += 1
         end
 
         def valid?
-           return ((@@used_times < @qtd) and (Datetime.parse(@date) < Datetime.now))
+           return ((@used_times < @qtd) and (@date > Date.today))
         end
 
         def apply_discount(value)
@@ -39,8 +44,10 @@ module Luz
 
         def calculate_discount(value)
             case @type
-                when 'absolute' return (value > @value) ? value - @value : 0 #negative values dont exists
-                when 'percent' return (@value <= 100) ? value - ((value * @value) / 100) : 0
+                when 'absolute' 
+                    return (value > @value) ? value - @value : 0 #negative values dont exists
+                when 'percent' 
+                    return (@value <= 100) ? value - ((value * @value) / 100) : 0
             end
 
         end

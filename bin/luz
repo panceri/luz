@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+require 'luz'
+
+luz = Luz::Principal.new ARGV
+luz.result

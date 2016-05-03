@@ -11,6 +11,11 @@ module Luz
     def add_product(product)
       products << product
     end
+    
+    def total
+      total = @products.sum(&:price)
+      
+    end
 
   end
 end
