@@ -26,12 +26,15 @@ module Luz
         
         read_csv(arg4).foreach do |row|
           if order_products.count{ |o| o.order.id == row[0]  } == 0
-            order_products.push(new ProductOrder(orders.detect{|d| i == row[0]}))
+            order_products.push(new OrderProduct(orders.detect{|d| i == row[0]}))
           end
 
           order_product = order_products.select{ |o| o.order.id == row[0]}.first
           order_product.add_product(products.select{|p| p.id == row[1]}.first)
         end
+        
+        results = self.result(order_products)
+        self.write_results(arg5, results)
       end
       
       def result
@@ -42,6 +45,20 @@ module Luz
 
       def read_csv(name)
         CSV.read(name)
+      end
+      
+      def result(order_products)
+        result = []
+        order_products.each do |o|
+          result.push("#{o.order.id},#{o.total}")
+        end
+        result
+      end
+      
+      def write_results(csv, results)
+        CSV.open(csv, "w") do |c|
+          c << results.to_csv
+        end
       end
   end
 end
