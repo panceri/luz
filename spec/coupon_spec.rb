@@ -24,18 +24,18 @@ describe Luz::Coupon do
     context "valid arguments" do
 
         it "coupon" do
-           luz = Luz::Coupon.new([123, 25, "absolute", "12/25/2020", 1])
+           luz = FactoryGirl.build(:coupon)
            expect(luz.valid?).to be_truthy
         end
         
         it "invalid coupon (used lot of times)" do
-           luz = Luz::Coupon.new([123, 25, "absolute", "12/25/2020", 1])
+           luz = FactoryGirl.build(:coupon)
            luz.mark_used
            expect(luz.valid?).to be_falsey
         end
         
-        it "invalid coupon (used lot of times)" do
-           luz = Luz::Coupon.new([123, 25, "absolute", '05/04/2016', 1])
+        it "invalid coupon (expired date)" do
+           luz = FactoryGirl.build(:coupon, date: '05/04/2016')
            luz.mark_used
            expect(luz.valid?).to be_falsey
         end
@@ -43,12 +43,12 @@ describe Luz::Coupon do
         context "discount" do
             context "absolute" do
                 it "regular" do
-                   luz = Luz::Coupon.new([123, 25, "absolute", "12/25/2020", 1])
+                   luz = FactoryGirl.build(:coupon)
                    expect(luz.calculate_discount(100)).to eq(75)
                 end
                 
                 it "greater than value" do
-                   luz = Luz::Coupon.new([123, 110, "absolute", "12/25/2020", 1])
+                   luz = FactoryGirl.build(:coupon, value: 110)
                    expect(luz.calculate_discount(100)).to eq(0)
                 end
             end
@@ -56,12 +56,12 @@ describe Luz::Coupon do
             context "percent" do
 
                it "regular" do
-                   luz = Luz::Coupon.new([123, 10, "percent", "12/25/2020", 1])
+                   luz = FactoryGirl.build(:coupon, value: 10, type: "percent")
                    expect(luz.calculate_discount(100)).to eq(90)
                end
 
                it "greater than 100%" do
-                   luz = Luz::Coupon.new([123, 110, "percent", "12/25/2020", 1])
+                   luz = FactoryGirl.build(:coupon, value: 110, type: "percent")
                    expect(luz.calculate_discount(100)).to eq(0)
                end
             end
@@ -69,18 +69,18 @@ describe Luz::Coupon do
             context "full" do
                 context "absolute" do
                     it "regular" do
-                       luz = Luz::Coupon.new([123, 25, "absolute", "12/25/2020", 1])
+                       luz = FactoryGirl.build(:coupon)
                        expect(luz.apply_discount(100)).to eq(75)
                        expect(luz.valid?).to be_falsey
                     end
                     it "invalid coupon (used lot of times)" do
-                       luz = Luz::Coupon.new([123, 25, "absolute", "12/25/2020", 1])
+                       luz = FactoryGirl.build(:coupon)
                        luz.mark_used
                        expect(luz.apply_discount(100)).to eq(100)
                        expect(luz.valid?).to be_falsey
                     end
                     it "invalid coupon (invalid date)" do
-                       luz = Luz::Coupon.new([123, 25, "absolute", "12/25/2015", 1])
+                       luz = FactoryGirl.build(:coupon, date: "12/25/2015")
                        luz.mark_used
                        expect(luz.apply_discount(100)).to eq(100)
                        expect(luz.valid?).to be_falsey
@@ -89,18 +89,18 @@ describe Luz::Coupon do
                 
                 context "percent" do
                     it "regular" do
-                       luz = Luz::Coupon.new([123, 25, "percent", "12/25/2020", 1])
+                       luz = FactoryGirl.build(:coupon, type: "percent")
                        expect(luz.apply_discount(100)).to eq(75)
                        expect(luz.valid?).to be_falsey
                     end
                     it "invalid coupon (used lot of times)" do
-                       luz = Luz::Coupon.new([123, 25, "percent", "12/25/2020", 1])
+                       luz = FactoryGirl.build(:coupon, type: "percent")
                        luz.mark_used
                        expect(luz.apply_discount(100)).to eq(100)
                        expect(luz.valid?).to be_falsey
                     end
                     it "invalid coupon (invalid date)" do
-                       luz = Luz::Coupon.new([123, 25, "percent", "12/25/2015", 1])
+                       luz = FactoryGirl.build(:coupon, type: "percent", date: "12/25/2015")
                        luz.mark_used
                        expect(luz.apply_discount(100)).to eq(100)
                        expect(luz.valid?).to be_falsey
