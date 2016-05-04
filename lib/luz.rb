@@ -8,43 +8,48 @@ require 'csv'
 module Luz
   class Principal
 
-      def initialize(arg1, arg2, arg3, arg4, arg5)
+      def initialize(*args)
+        unless args.size == 5 and args.all?
+          puts "Usage: luz coupons.csv products.csv orders.csv order_items.csv outuput.csv"
+          exit 1
+        end
+
         coupons = Array.new
         products = Array.new
         orders = Array.new
         @order_products = Array.new
-        @output = arg5
+        @output = args[4]
         
-        CSV.foreach(arg1) do |row|  
+        CSV.foreach(args[0]) do |row|  
           coupons << Coupon.new(row)
         end
 
-        CSV.foreach(arg2) do |row|  
+        CSV.foreach(args[1]) do |row|  
           products << Product.new(row)
         end
 
-        CSV.foreach(arg3) do |row|  
+        CSV.foreach(args[2]) do |row|  
           coupon = coupons.select {|c| c.id = row[1]}.first
           orders << Order.new(row[0], coupon)
         end
 
-        CSV.foreach(arg4) do |row|  
-          order_product = @order_products.find {|o| o.order.id == row[0] }
+        CSV.foreach(args[3]) do |row|  
+          order_product = @order_products.find {|o| o.order.id == row[0].to_i }
           if order_product
           else
-            order =  orders.find{|d| d.id == row[0]}
+            order =  orders.find{|d| d.id == row[0].to_i}
             @order_products.push OrderProduct.new(order)
           end
 
-          order_product = @order_products.find{ |o| o.order.id == row[0]}
-          order_product.add_product(products.find{|p| p.id == row[1]})        
+          order_product = @order_products.find{ |o| o.order.id == row[0].to_i}
+          order_product.add_product(products.find{|p| p.id == row[1].to_i})        
         end
 
       end
 
       def result
-        #write_results(@output, calculate(@order_products))
-        puts calculate(@order_products)
+        write_results(@output, calculate(@order_products))
+        puts "Done"
       end
       
       private
@@ -58,9 +63,17 @@ module Luz
       end
       
       def write_results(csv, results)
-        CSV.open(csv, "w") do |c|
-          c << results
+        begin
+          CSV.open(csv, "a+") do |c|
+            results.each do |r|
+              c << [r.split(",")[0], r.split(",")[1]]  
+            end
+          end
+        rescue Exception => e
+          puts "Error during write result, so i print to you"
+          puts results
         end
       end
   end
 end
+  

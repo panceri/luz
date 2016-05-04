@@ -9,7 +9,7 @@ module Luz
             raise ArgumentError, 'Invalid discount type' unless array[2].to_s.match(/(percent|absolute)/)
             raise ArgumentError, 'qtd must be a number' unless array[4].to_s.match(/^[0-9]+$/)
 
-            @id = array[0]
+            @id = array[0].to_i
             @value = array[1].to_f
             @type = array[2].to_s
             @date = Date.strptime(array[3].to_s, "%Y/%m/%d")
