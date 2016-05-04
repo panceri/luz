@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
 require 'luz'
 
-luz = Luz::Principal.new ARGV
+luz = Luz::Principal.new ARGV[0] ARGV[1] ARGV[2] ARGV[3] ARGV[4]
 luz.result
