@@ -1,3 +1,6 @@
+require 'luz/order'
+require 'luz/product'
+
 module Luz
   class OrderProduct
 

@@ -9,46 +9,47 @@ module Luz
   class Principal
 
       def initialize(arg1, arg2, arg3, arg4, arg5)
-        coupons, products, orders, order_produts = Array.new
+        coupons = Array.new
+        products = Array.new
+        orders = Array.new
+        @order_products = Array.new
+        @output = arg5
         
-        read_csv(arg1).foreach do |row|  
-          coupons.push(new Coupon(row))
+        CSV.foreach(arg1) do |row|  
+          coupons << Coupon.new(row)
         end
-        
-        read_csv(arg2).foearch do |row| 
-          products.push(new Product(row))
+
+        CSV.foreach(arg2) do |row|  
+          products << Product.new(row)
         end
-        
-        #fill order with id and coupon
-        orders = read_csv(arg3).foreach do |row| 
-          orders.push(new Order(row[0], coupons.select {|c| c.id = row[1]}.first))
+
+        CSV.foreach(arg3) do |row|  
+          coupon = coupons.select {|c| c.id = row[1]}.first
+          orders << Order.new(row[0], coupon)
         end
-        
-        read_csv(arg4).foreach do |row|
-          if order_products.count{ |o| o.order.id == row[0]  } == 0
-            order_products.push(new OrderProduct(orders.detect{|d| i == row[0]}))
+
+        CSV.foreach(arg4) do |row|  
+          order_product = @order_products.find {|o| o.order.id == row[0] }
+          if order_product
+          else
+            order =  orders.find{|d| d.id == row[0]}
+            @order_products.push OrderProduct.new(order)
           end
 
-          order_product = order_products.select{ |o| o.order.id == row[0]}.first
-          order_product.add_product(products.select{|p| p.id == row[1]}.first)
+          order_product = @order_products.find{ |o| o.order.id == row[0]}
+          order_product.add_product(products.find{|p| p.id == row[1]})        
         end
-        
-        results = self.result(order_products)
-        self.write_results(arg5, results)
+
       end
-      
+
       def result
-        puts "Works"
-      end
-
-      private
-
-      def read_csv(name)
-        puts CSV.read(name)
-        CSV.read(name)
+        #write_results(@output, calculate(@order_products))
+        puts calculate(@order_products)
       end
       
-      def result(order_products)
+      private
+    
+      def calculate(order_products)
         result = []
         order_products.each do |o|
           result.push("#{o.order.id},#{o.total}")
@@ -58,7 +59,7 @@ module Luz
       
       def write_results(csv, results)
         CSV.open(csv, "w") do |c|
-          c << results.to_csv
+          c << results
         end
       end
   end

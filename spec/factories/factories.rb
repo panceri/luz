@@ -9,7 +9,7 @@ module Luz
         id = 1
         value = 25
         type = "absolute"
-        date = "12/25/2020"
+        date = "2020/12/25"
         qtd = 1
 
         initialize_with { new([id, value, type, date, qtd]) }

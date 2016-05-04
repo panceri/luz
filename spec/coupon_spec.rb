@@ -35,7 +35,7 @@ describe Luz::Coupon do
         end
         
         it "invalid coupon (expired date)" do
-           luz = FactoryGirl.build(:coupon, date: '05/04/2016')
+           luz = FactoryGirl.build(:coupon, date: '2016/05/04')
            luz.mark_used
            expect(luz.valid?).to be_falsey
         end

@@ -10,10 +10,10 @@ module Luz
             raise ArgumentError, 'qtd must be a number' unless array[4].to_s.match(/^[0-9]+$/)
 
             @id = array[0]
-            @value = array[1]
+            @value = array[1].to_f
             @type = array[2].to_s
-            @date = Date.strptime(array[3].to_s, "%m/%d/%Y")
-            @qtd = array[4]
+            @date = Date.strptime(array[3].to_s, "%Y/%m/%d")
+            @qtd = array[4].to_f
             @used_times = 0
         end
 
