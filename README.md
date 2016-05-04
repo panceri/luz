@@ -11,12 +11,12 @@ Clonar o repositório e rodar:
 
 Tem 2 formas de rodar a aplicação, a primeira delas é sem instalar a gem:
 
-   $ ruby -Ilib ./bin/luz coupons.csv products.csv orders.csv order_items.csv outuput.csv
-   
+    $ ruby -Ilib ./bin/luz coupons.csv products.csv orders.csv order_items.csv outuput.csv
+
 E caso deseje instalar a gem
 
-   $ rake install
-   $ luz coupons.csv products.csv orders.csv order_items.csv outuput.csv
+    $ rake install
+    $ luz coupons.csv products.csv orders.csv order_items.csv outuput.csv
 
 Para executar os testes:
 
