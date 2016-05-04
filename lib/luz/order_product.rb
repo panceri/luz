@@ -11,18 +11,21 @@ module Luz
     def add_product(product)
       products << product
     end
-    
+
     def total
-      total = @products.sum(&:price)
-      total_with_coupon = @order.coupon.apply_discount(total)
-      total_with_coupon = 0
-      if @products.size === (2..4)
-        total_with_coupon -= (5 * @products.size) / 100
-      else
-        total_with_coupon = total
-      end
-      
-      return [total_with_coupon, total_with_coupon].min
+      total = @products.map(&:price).inject(:+)
+      total_with_coupon = @order.coupon.apply_discount(total) if @order.coupon
+      total_without_coupon =  apply_common_discount(total, @products.size)
+      return [total_without_coupon, total_with_coupon].min if total_with_coupon
+      return total_without_coupon
+    end
+
+    private
+
+    def apply_common_discount(total, qtd)
+      return total if qtd < 2
+      discount = (qtd >= 8) ? 40 : 5 * qtd
+      return total - (total * discount / 100)
     end
 
   end

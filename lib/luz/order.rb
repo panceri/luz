@@ -6,7 +6,7 @@ module Luz
         attr_accessor :id
         attr_accessor :coupon
 
-        def initialize(id, coupon)
+        def initialize(id, coupon = nil)
             @id = id;
             @coupon = coupon
         end
