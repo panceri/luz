@@ -29,10 +29,10 @@ module Luz
         end
 
         CSV.foreach(args[2]) do |row|  
-          coupon = coupons.select {|c| c.id = row[1]}.first
+          coupon = coupons.find {|c| c.id == row[1].to_i}
           orders << Order.new(row[0], coupon)
         end
-
+        
         CSV.foreach(args[3]) do |row|  
           order_product = @order_products.find {|o| o.order.id == row[0].to_i }
           if order_product

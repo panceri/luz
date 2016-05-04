@@ -7,12 +7,12 @@ module Luz
     FactoryGirl.define do
       factory :coupon, class: Coupon, :aliases => [:absolute_coupon] do
         id = 1
-        value = 25
+        discount = 25
         type = "absolute"
         date = "2020/12/25"
         qtd = 1
 
-        initialize_with { new([id, value, type, date, qtd]) }
+        initialize_with { new([id, discount, type, date, qtd]) }
       end
       
       factory :product, class: Product, :aliases => [:default_product] do

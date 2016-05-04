@@ -2,7 +2,7 @@ require 'date'
 module Luz
     class Coupon
 
-        attr_accessor :id, :value, :type, :date, :qtd
+        attr_accessor :id, :discount, :type, :date, :qtd
 
         def initialize(array)
             raise ArgumentError, 'Wrong input size' unless array.size == 5
@@ -10,16 +10,16 @@ module Luz
             raise ArgumentError, 'qtd must be a number' unless array[4].to_s.match(/^[0-9]+$/)
 
             @id = array[0].to_i
-            @value = array[1].to_f
+            @discount = array[1].to_f
             @type = array[2].to_s
             @date = Date.strptime(array[3].to_s, "%Y/%m/%d")
-            @qtd = array[4].to_f
+            @qtd = array[4].to_i
             @used_times = 0
         end
 
         def to_s
             puts "ID: #{@id}"
-            puts "Value: #{@value}"
+            puts "Discount: #{@discount}"
             puts "Type: #{@type}"
             puts "Date: #{@date}"
             puts "Qtd: #{@qtd}"
@@ -45,9 +45,9 @@ module Luz
         def calculate_discount(value)
             case @type
                 when 'absolute' 
-                    return (value > @value) ? value - @value : 0 #negative values dont exists
+                    return (value > @discount) ? value - @discount : 0 #negative values dont exists
                 when 'percent' 
-                    return (@value <= 100) ? value - ((value * @value) / 100) : 0
+                    return (@discount <= 100) ? value - (value * @discount / 100) : 0
             end
 
         end

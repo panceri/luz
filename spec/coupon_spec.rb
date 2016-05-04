@@ -48,7 +48,7 @@ describe Luz::Coupon do
                 end
                 
                 it "greater than value" do
-                   luz = FactoryGirl.build(:coupon, value: 110)
+                   luz = FactoryGirl.build(:coupon, discount: 110)
                    expect(luz.calculate_discount(100)).to eq(0)
                 end
             end
@@ -56,12 +56,12 @@ describe Luz::Coupon do
             context "percent" do
 
                it "regular" do
-                   luz = FactoryGirl.build(:coupon, value: 10, type: "percent")
+                   luz = FactoryGirl.build(:coupon, discount: 10, type: "percent")
                    expect(luz.calculate_discount(100)).to eq(90)
                end
 
                it "greater than 100%" do
-                   luz = FactoryGirl.build(:coupon, value: 110, type: "percent")
+                   luz = FactoryGirl.build(:coupon, discount: 110, type: "percent")
                    expect(luz.calculate_discount(100)).to eq(0)
                end
             end
