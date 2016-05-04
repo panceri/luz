@@ -44,6 +44,7 @@ module Luz
       private
 
       def read_csv(name)
+        puts CSV.read(name)
         CSV.read(name)
       end
       
