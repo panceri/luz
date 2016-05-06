@@ -1,8 +1,8 @@
 require 'csv'
 
 module Luz
-    class Parser
-        def parse(file)
+    class CSVReader
+        def read(file)
             CSV.read(file)
         end
     end

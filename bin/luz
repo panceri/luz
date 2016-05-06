@@ -1,6 +1,14 @@
 #!/usr/bin/env ruby
 require 'luz'
 
-luz = Luz::Principal.new ARGV[0], ARGV[1], ARGV[2], ARGV[3], ARGV[4]
-luz.result
+unless ARGV.size == 5 and ARGV.all?
+  LuzLog.log.info "Usage: luz coupons.csv products.csv orders.csv order_items.csv output.csv"
+  exit 1
+end
 
+luz = Luz::Principal.new 
+#, ARGV[4] output file
+array = luz.read_all ARGV[0], ARGV[1], ARGV[2], ARGV[3]
+orders = luz.populate array
+results = luz.calculate orders
+luz.write_result results, ARGV[4]

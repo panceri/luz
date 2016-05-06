@@ -1,5 +1,5 @@
 require 'spec_helper'
-require "luz/order_product"
+#require "luz/order_product"
 
 describe Luz::OrderProduct do
 	context "valid order" do
