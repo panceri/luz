@@ -6,6 +6,7 @@ require "luz/result"
 require "luz/csv_reader"
 require "luz/csv_writer"
 require 'luz/luz_log'
+require 'luz/finance'
 require 'csv'
 
 module Luz
@@ -53,11 +54,7 @@ module Luz
       end
       
       def calculate(orders)
-        results = []
-        orders.each do |order|
-          results << Result.new(order.id, order.total)
-        end
-        results
+        Finance.new().calculate(orders)
       end
       
       def write_result(results, output, writer: CSVWriter.new)
