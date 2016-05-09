@@ -17,14 +17,6 @@ module Luz
             @used_times = 0
         end
 
-        def to_s
-            puts "ID: #{@id}"
-            puts "Discount: #{@discount}"
-            puts "Type: #{@type}"
-            puts "Date: #{@date}"
-            puts "Qtd: #{@qtd}"
-        end
-
         def mark_used
             @used_times += 1
         end
@@ -32,24 +24,6 @@ module Luz
         def valid?
            return ((@used_times < @qtd) and (@date > Date.today))
         end
-
-        def apply_discount(value)
-            if self.valid?
-                self.mark_used
-                return self.calculate_discount(value)
-            else
-                return value
-            end
-        end
-
-        def calculate_discount(value)
-            case @type
-                when 'absolute' 
-                    return (value > @discount) ? value - @discount : 0 #negative values dont exists
-                when 'percent' 
-                    return (@discount <= 100) ? value - (value * @discount / 100) : 0
-            end
-
-        end
+        
     end
 end

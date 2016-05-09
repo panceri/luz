@@ -59,7 +59,7 @@ module Luz
       
       def write_result(results, output, writer: CSVWriter.new)
         results.each do |result|
-          writer.write(output, [result.order_id, result.total]);
+          writer.write(output, result.to_a);
         end
         LuzLog.log.info "Done"
       end

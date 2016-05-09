@@ -8,5 +8,9 @@ module Luz
             @order_id = id
             @total = total
         end
+
+        def to_a
+          [@order_id, @total]
+        end
     end
 end
