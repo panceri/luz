@@ -54,7 +54,7 @@ module Luz
       end
       
       def calculate(orders)
-        Finance.new().calculate(orders)
+        Finance.new.calculate(orders)
       end
       
       def write_result(results, output, writer: CSVWriter.new)
