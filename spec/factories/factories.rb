@@ -29,7 +29,7 @@ module Luz
         end
 
         trait :percent do
-          initialize_with { new(id, FactoryGirl.build(:coupon, type: "percent")) }
+          initialize_with { new(id, FactoryGirl.build(:coupon, type: "percent", discount: 35)) }
         end
 
         trait :no_coupon do
