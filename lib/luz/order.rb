@@ -17,6 +17,5 @@ module Luz
         def add_product(product)
             @products << product
         end
-        
     end
 end

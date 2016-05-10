@@ -17,7 +17,7 @@ module Luz
         def total(products, coupon)
           total = products.map(&:price).inject(:+)
           total_with_coupon = self.calculate_coupon_discount(coupon, total)
-          total_without_coupon =  self.apply_common_discount(total, products.size)
+          total_without_coupon =  self.common_discount(total, products.size)
           
           if (coupon and coupon.valid? and (total_with_coupon < total_without_coupon))
               coupon.mark_used
@@ -27,7 +27,7 @@ module Luz
           end
         end
     
-        def apply_common_discount(total, qtd)
+        def common_discount(total, qtd)
           return total if qtd < 2
           discount = (qtd >= 8) ? 40 : 5 * qtd
           return total - (total * discount / 100)
@@ -41,7 +41,6 @@ module Luz
                 when 'percent' 
                     return (coupon.discount <= 100) ? value - (value * coupon.discount / 100) : 0
             end
-
         end
     end
 end

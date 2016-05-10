@@ -8,7 +8,6 @@ module Luz
                   c << content
               end
             rescue Exception => e
-              puts "Error during write result, so i print to you"
               LuzLog.log.error "Error during write result, so i print to you"
               LuzLog.log.error e
             end
